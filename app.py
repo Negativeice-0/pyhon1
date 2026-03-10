@@ -10,7 +10,7 @@ st.set_page_config(page_title="Boston Housing Portal")
 def load_data():
     # Fetching raw data due to sklearn deprecation
     url = "http://lib.stat.cmu.edu/datasets/boston"
-    raw_df = pd.read_csv(url, sep="\s+", skiprows=22, header=None)
+    raw_df = pd.read_csv(url, sep="\\s+", skiprows=22, header=None)
     data = np.hstack([raw_df.values[::2, :], raw_df.values[1::2, :2]])
     target = raw_df.values[1::2, 2]
     cols = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT"]
