@@ -5,6 +5,7 @@ numpy
 scikit-learn
 matplotlib
 seaborn
+scipy
 xgboost # model
 shap # explainability
 
