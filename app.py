@@ -1554,11 +1554,12 @@ XGBOOST
         ### Linear Regression Assumptions (and Why They Break)
         
         Linear regression assumes:
-        1. **Linearity**: Y = β₀ + β₁X₁ + β₂X₂ + ... + ε
-        2. **Independence**: Errors are independent
-        3. **Homoscedasticity**: Constant error variance
-        4. **Normality**: Errors are normally distributed
-        5. **No multicollinearity**: Predictors are not perfectly correlated
+        1. **Linearity**: Y = β₀ + β₁X₁ + β₂X₂ + ... + ε. If you score 10 points in the first quarter, you should then score 20 then 30 then 40 for a total of 100 points by game end.
+        2. **Independence**: Errors are independent. Team a will always score whether team b fails to score or there are no cheerleaders or it is raiing. They won't start copying.
+        3. **Homoscedasticity**: Constant error variance. If i shoot a basket ball and i miss the hoop by 2 feet, i always miss by two feet even from half court or other hoop.
+        4. **Normality**: Errors are normally distributed. Most shots occur near the hoop. There might be those impossible shots that are too close or too far from the hoop.
+        5. **No multicollinearity**: Predictors are not perfectly correlated. Two guys making identical shots all day, everyday and like a man and a clone that matches him. 
+        6. **No autocorreleation**: Past erros don't affect the future. If we lost a game yesterday then we will be unable to score even a single point in tomorrow.'s game. 
         
         ### Real-World Violations
         
