@@ -1,7 +1,13 @@
+# Core data science
 streamlit
 pandas
 numpy
 scikit-learn
 matplotlib
-xgboost
-shap
+seaborn
+xgboost # model
+shap # explainability
+
+# Utilities
+python-dateutil
+pytz
