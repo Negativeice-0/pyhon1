@@ -2,6 +2,10 @@
 
 ---
 
+## Why not in code
+
+Becasue ai uses the matrix method calculation which is hard to compute r2 -- tried. But i am open if anyone can help me figure it out. BUt it is also nnot necessary as linera regression does not factor real human experiences which eventually lead to wrong but reasonable guesses if everything is perfect and life is not perfect.
+
 ## ✅ How the Model Learned (OLS in Plain Terms)
 
 The model used **Ordinary Least Squares (OLS)** — a math formula that finds the best straight-line fit between all 13 features and the house price (`MEDV`). Where this <model = LinearRegression().fit(df.drop(columns=['MEDV']), df['MEDV'])> becomes this <$12.9k**?> as you'll see below.
