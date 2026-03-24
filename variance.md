@@ -2,6 +2,10 @@
 
 Based on your Boston Housing model, here are the key evaluation metrics and questions worth exploring:
 
+```merm
+You can print out / diplay on condole or web "print("2x + 1x = 3x")" which is how matploit can also print a graph with line, but it cannot easily calculate the exact positions in a cartesian plane just like a calculator cannot add 2x + 1X.
+```
+
 ---
 
 ## 📊 Standard Regression Metrics
