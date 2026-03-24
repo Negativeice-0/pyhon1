@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import root_mean_squared_error
 
 # Setup Page
 st.set_page_config(page_title="Boston Housing Portal")
@@ -18,8 +19,14 @@ def load_data():
     df['MEDV'] = target
     return df
 
+# training the model
 df = load_data()
 model = LinearRegression().fit(df.drop(columns=['MEDV']), df['MEDV'])
+# Calculate RMSE
+y_pred = model.predict(df.drop(columns=['MEDV']))
+rmse = root_mean_squared_error(df['MEDV'], y_pred, squared=False)  # False = RMSE, True = MSE
+
+st.write(f"### Model Accuracy: RMSE = ${rmse:.2f}k")
 
 st.title("🏙️ Boston Housing Price Predictor")
 st.markdown("---")
