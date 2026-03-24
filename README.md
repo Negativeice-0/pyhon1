@@ -1,6 +1,9 @@
-# Boston housing predictor
+# AI Reality Lab - Boston Housing Predictor
 
 THe data is directly fetched from the internet --   ```http://lib.stat.cmu.edu/datasets/boston```. Streamlit was used for ease of use, a proper app would suffer from the lack of customizability it brings.
+
+It includes authentication, model training (Linear Regression, Random Forest, XGBoost), interactive predictions,
+visualizations, reports, and a detailed educational conclusion.
 
 It is important to note that all the other regressions are just slight improvements to linear regression, random forest is signficant leap forward but xgboost is king.
 
@@ -73,3 +76,29 @@ A page that explains the business sense for login and admin. Someone can easily 
 I aslo would like the rough mathematical fully worked out example, analogical explanation and senior software engineer breakdown of everything that happened. I expect a more involved, comprehensive and simplistic conclusion with bullet points.
 
  The aim is to justify linear regressions value as the foundation, but also call tell others that based on its assuptions we would need to be robots for it to work and we are human hence xgboost (for small sample data) and neural nets (for big data) are more realistic.
+
+## About
+
+This project justifies linear regression as a foundation, but shows that real-world data requires more sophisticated
+models like XGBoost (for small sample data) and neural networks (for big data) because human behavior is non-linear.
+
+## Issues Fixed
+
+- Corrected prediction indexing ```(e.g., predict(...)[0])```
+- Fixed axes indexing in subplots (e.g., axes[0] instead of axes)
+- Added a "Conclusion" page with business logic, mathematical explanations, analogies, and senior engineer breakdown.
+
+## How to Run
+
+1. Create and activate a Python environment.
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run: `streamlit run app.py`
+
+## Original README Notes
+
+THe data is directly fetched from the internet -- ```http://lib.stat.cmu.edu/datasets/boston```.
+Streamlit was used for ease of use, a proper app would suffer from the lack of customizability it brings.
+It is important to note that all the other regressions are just slight improvements to linear regression,
+random forest is signficant leap forward but xgboost is king.
+The aim is to justify linear regressions value as the foundation, but also call tell others that based on its assuptions
+we would need to be robots for it to work and we are human hence xgboost (for small sample data) and neural nets (for big data) are more realistic.

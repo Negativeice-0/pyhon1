@@ -54,10 +54,9 @@ def save_users(users):
 def login_user(username, password, users):
     """Authenticate user"""
     if username in users:
-        if users[username]["password"] == hash_password(password):
-            return True, users[username]["role"]
+        if users[username] ["password"] == hash_password(password):
+            return True, users[username] ["role"]
     return False, None
-
 
 # =========================
 # PAGE SETUP & STYLING
@@ -372,7 +371,6 @@ if "model_params" not in st.session_state:
         'test_size': 0.2
     }
 
-
 # =========================
 # LOAD DATA (CACHED)
 # =========================
@@ -390,7 +388,6 @@ def load_data():
     df = pd.DataFrame(data, columns=cols)
     df['MEDV'] = target
     return df
-
 
 # =========================
 # TRAIN MODELS (CACHED)
@@ -441,7 +438,6 @@ def train_models(X_train, X_test, y_train, y_test, params):
         'y_test_pred_xgb': y_test_pred_xgb,
     }
 
-
 # =========================
 # METRICS CALCULATION
 # =========================
@@ -480,7 +476,6 @@ def display_metrics_cards(title, y_true, y_pred, model_name=""):
         st.success("✅ Strong predictive performance")
     
     return metrics
-
 
 # =========================
 # LOGIN PAGE
@@ -540,7 +535,6 @@ def show_login_page():
         - Username: `user`
         - Password: `user123`
         """)
-
 
 # =========================
 # ADMIN PANEL
@@ -646,7 +640,6 @@ def show_admin_panel():
     
     st.markdown('</div>', unsafe_allow_html=True)
 
-
 # =========================
 # MAIN APP
 # =========================
@@ -685,7 +678,6 @@ else:
             "📈 Visualization",
             "🧠 Simulation",
             "📥 Reports",
-            "📚 Conclusion"
         ], label_visibility="collapsed")
         
         st.divider()
@@ -771,16 +763,16 @@ else:
             pred_col1, pred_col2, pred_col3 = st.columns(3)
             
             with pred_col1:
-                lin_pred = float(models['lin_model'].predict(input_df)[0])  # Fixed: use [0] indexing
+                lin_pred = float(models['lin_model'].predict(input_df))
                 st.success(f"**Linear Regression**\n${lin_pred:.2f}k")
             
             with pred_col2:
-                rf_pred = float(models['rf_model'].predict(input_df)[0])  # Fixed: use [0] indexing
+                rf_pred = float(models['rf_model'].predict(input_df))
                 st.success(f"**Random Forest**\n${rf_pred:.2f}k")
             
             with pred_col3:
                 if xgb_available:
-                    xgb_pred = float(models['xgb_model'].predict(input_df)[0])  # Fixed: use [0] indexing
+                    xgb_pred = float(models['xgb_model'].predict(input_df))
                     st.success(f"**XGBoost**\n${xgb_pred:.2f}k")
                 else:
                     st.info("XGBoost not installed")
@@ -885,21 +877,21 @@ else:
             ax.tick_params(colors='#818384')
         
         # Training set
-        axes[0].scatter(y_train, models['y_train_pred_rf'], alpha=0.6, c=y_train, cmap='viridis')
-        axes[0].plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'r--', lw=2)
-        axes[0].set_xlabel('Actual Price ($k)', fontsize=11, color='#d7dadc')
-        axes[0].set_ylabel('Predicted Price ($k)', fontsize=11, color='#d7dadc')
-        axes[0].set_title('Training Set', fontsize=12, fontweight='bold', color='#d7dadc')
-        axes[0].grid(True, alpha=0.2, color='#343536')
+        axes.scatter(y_train, models['y_train_pred_rf'], alpha=0.6, c=y_train, cmap='viridis')
+        axes.plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'r--', lw=2)
+        axes.set_xlabel('Actual Price ($k)', fontsize=11, color='#d7dadc')
+        axes.set_ylabel('Predicted Price ($k)', fontsize=11, color='#d7dadc')
+        axes.set_title('Training Set', fontsize=12, fontweight='bold', color='#d7dadc')
+        axes.grid(True, alpha=0.2, color='#343536')
         
         # Test set
-        scatter = axes[1].scatter(y_test, models['y_test_pred_rf'], alpha=0.6, c=y_test, cmap='viridis')
-        axes[1].plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2)
-        axes[1].set_xlabel('Actual Price ($k)', fontsize=11, color='#d7dadc')
-        axes[1].set_ylabel('Predicted Price ($k)', fontsize=11, color='#d7dadc')
-        axes[1].set_title('Test Set (Real Performance)', fontsize=12, fontweight='bold', color='#d7dadc')
-        axes[1].grid(True, alpha=0.2, color='#343536')
-        plt.colorbar(scatter, ax=axes[1], label='Price ($k)')
+        scatter = axes.scatter(y_test, models['y_test_pred_rf'], alpha=0.6, c=y_test, cmap='viridis')
+        axes.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2)
+        axes.set_xlabel('Actual Price ($k)', fontsize=11, color='#d7dadc')
+        axes.set_ylabel('Predicted Price ($k)', fontsize=11, color='#d7dadc')
+        axes.set_title('Test Set (Real Performance)', fontsize=12, fontweight='bold', color='#d7dadc')
+        axes.grid(True, alpha=0.2, color='#343536')
+        plt.colorbar(scatter, ax=axes, label='Price ($k)')
         
         plt.tight_layout()
         st.pyplot(fig)
@@ -921,20 +913,20 @@ else:
             ax.tick_params(colors='#818384')
         
         # Training residuals
-        axes[0].scatter(models['y_train_pred_rf'], residuals_train, alpha=0.6, color='#00f5c4')
-        axes[0].axhline(y=0, color='#ff4444', linestyle='--', lw=2)
-        axes[0].set_xlabel('Predicted Price ($k)', fontsize=11, color='#d7dadc')
-        axes[0].set_ylabel('Residuals ($k)', fontsize=11, color='#d7dadc')
-        axes[0].set_title('Training Residuals', fontsize=12, fontweight='bold', color='#d7dadc')
-        axes[0].grid(True, alpha=0.2, color='#343536')
+        axes.scatter(models['y_train_pred_rf'], residuals_train, alpha=0.6, color='#00f5c4')
+        axes.axhline(y=0, color='#ff4444', linestyle='--', lw=2)
+        axes.set_xlabel('Predicted Price ($k)', fontsize=11, color='#d7dadc')
+        axes.set_ylabel('Residuals ($k)', fontsize=11, color='#d7dadc')
+        axes.set_title('Training Residuals', fontsize=12, fontweight='bold', color='#d7dadc')
+        axes.grid(True, alpha=0.2, color='#343536')
         
         # Test residuals
-        axes[1].scatter(models['y_test_pred_rf'], residuals_test, alpha=0.6, color='#0099ff')
-        axes[1].axhline(y=0, color='#ff4444', linestyle='--', lw=2)
-        axes[1].set_xlabel('Predicted Price ($k)', fontsize=11, color='#d7dadc')
-        axes[1].set_ylabel('Residuals ($k)', fontsize=11, color='#d7dadc')
-        axes[1].set_title('Test Residuals (Real Performance)', fontsize=12, fontweight='bold', color='#d7dadc')
-        axes[1].grid(True, alpha=0.2, color='#343536')
+        axes.scatter(models['y_test_pred_rf'], residuals_test, alpha=0.6, color='#0099ff')
+        axes.axhline(y=0, color='#ff4444', linestyle='--', lw=2)
+        axes.set_xlabel('Predicted Price ($k)', fontsize=11, color='#d7dadc')
+        axes.set_ylabel('Residuals ($k)', fontsize=11, color='#d7dadc')
+        axes.set_title('Test Residuals (Real Performance)', fontsize=12, fontweight='bold', color='#d7dadc')
+        axes.grid(True, alpha=0.2, color='#343536')
         
         plt.tight_layout()
         st.pyplot(fig)
@@ -993,7 +985,7 @@ else:
         
         input_df_sim = pd.DataFrame({"Marketing Spend": [spend]})
         pred_sales_raw = sim_model.predict(input_df_sim)
-        pred_sales = float(pred_sales_raw[0])  # Fixed: use [0] indexing
+        pred_sales = float(pred_sales_raw)
         
         col1, col2, col3 = st.columns(3)
         
@@ -1077,7 +1069,7 @@ else:
         
         tabs = st.tabs(["📈 Advanced Modeling", "🔍 Causal Inference", "🧠 Explainability", "🏢 Production"])
         
-        with tabs[0]:
+        with tabs:
             st.markdown("""
             - Time-series forecasting (sales over weeks/months)
             - Seasonal decomposition
@@ -1085,7 +1077,7 @@ else:
             - ARIMA & Prophet models
             """)
         
-        with tabs[1]:
+        with tabs:
             st.markdown("""
             - A/B testing frameworks
             - Uplift modeling (who to target)
@@ -1093,7 +1085,7 @@ else:
             - Propensity score matching
             """)
         
-        with tabs[2]:
+        with tabs:
             st.markdown("""
             - SHAP interaction plots
             - Feature dependency analysis
@@ -1101,7 +1093,7 @@ else:
             - Local interpretable models
             """)
         
-        with tabs[3]:
+        with tabs:
             st.markdown("""
             - Live data pipelines
             - API deployment
@@ -1508,513 +1500,3 @@ XGBOOST
                 )
                 
                 st.dataframe(importance_export, use_container_width=True)
-    
-    # =========================
-    # PAGE 6: CONCLUSION
-    # =========================
-    elif page == "📚 Conclusion":
-        st.title("📚 The Reality of Machine Learning: Beyond Linear Regression")
-        
-        st.markdown("""
-        ## Why Linear Regression is the Foundation (and Why It's Not Enough)
-        
-        Linear regression is the cornerstone of machine learning, but real-world data rarely follows its assumptions.
-        Let's explore why we need more sophisticated models like XGBoost and neural networks.
-        """)
-        
-        # Business Sense for Login and Admin
-        st.divider()
-        st.subheader("🔐 Business Sense for Login and Admin System")
-        
-        st.markdown("""
-        ### Why Authentication Matters in ML Systems
-        
-        **1. Customization for Specific Needs:**
-        - Admins can tailor models for specific business requirements
-        - Users can request custom datasets, weights, or algorithms
-        
-        **2. Security and Control:**
-        - Protect sensitive data and models
-        - Control who can modify parameters or access results
-        
-        **3. Collaboration Framework:**
-        - Different users can work with different configurations
-        - Track changes and maintain audit trails
-        
-        **4. Business Value:**
-        - Enable personalized ML solutions for different clients
-        - Allow domain experts to fine-tune models without coding
-        """)
-        
-        # Mathematical Explanation
-        st.divider()
-        st.subheader("🧮 Mathematical Foundation: Linear Regression vs Reality")
-        
-        st.markdown("""
-        ### Linear Regression Assumptions (and Why They Break)
-        
-        Linear regression assumes:
-        1. **Linearity**: Y = β₀ + β₁X₁ + β₂X₂ + ... + ε
-        2. **Independence**: Errors are independent
-        3. **Homoscedasticity**: Constant error variance
-        4. **Normality**: Errors are normally distributed
-        5. **No multicollinearity**: Predictors are not perfectly correlated
-        
-        ### Real-World Violations
-        
-        **Example**: House Price Prediction
-        
-        Linear model: `Price = β₀ + β₁×Rooms + β₂×CrimeRate + β₃×Location + ε`
-        
-        But reality is more complex:
-        - **Non-linear relationships**: More rooms don't always mean proportionally higher prices
-        - **Interactions**: Crime rate affects price differently in different neighborhoods
-        - **Threshold effects**: A certain number of rooms triggers a price jump
-        - **Non-normal errors**: Outliers (luxury homes) violate normality assumption
-        
-        ### The Math Behind Better Models
-        
-        **Random Forest**: Ensemble of decision trees
-        ```
-        RF(x) = 1/N × Σ(Tᵢ(x)) for i=1 to N
-        ```
-        Where each tree Tᵢ makes decisions based on feature splits.
-        
-        **XGBoost**: Gradient boosting with regularization
-        ```
-        Fₘ(x) = Fₘ₋₁(x) + γₘ × hₘ(x)
-        ```
-        Where hₘ(x) is a weak learner and γₘ is the step size.
-        
-        **Neural Networks**: Non-linear transformations
-        ```
-        y = σ(W₂ × σ(W₁ × x + b₁) + b₂)
-        ```
-        Where σ is a non-linear activation function.
-        """)
-        
-        # Analogical Explanation
-        st.divider()
-        st.subheader("🧩 Analogical Explanation: The Chef Analogy")
-        
-        st.markdown("""
-        ### Linear Regression = Following a Recipe
-        
-        Imagine you're a chef following a simple recipe:
-        - 1 cup flour + 1/2 cup sugar + 1 egg = 1 cake
-        - Double ingredients = double cake (linear relationship)
-        
-        ### Random Forest = Consulting Multiple Chefs
-        
-        Now you consult 100 different chefs:
-        - Each chef has their own recipe (decision tree)
-        - You average their results (ensemble)
-        - Some chefs specialize in chocolate cakes, others in vanilla
-        - You get a more robust result that handles variations
-        
-        ### XGBoost = Master Chef with Feedback
-        
-        You have a master chef who:
-        - Starts with a basic recipe
-        - Tastes the result and adjusts ingredients
-        - Repeats this process 100 times
-        - Each adjustment focuses on fixing previous mistakes
-        - The final recipe is highly optimized
-        
-        ### Neural Networks = AI Chef
-        
-        An AI chef that:
-        - Learns from millions of recipes
-        - Discovers hidden patterns (like how humidity affects baking)
-        - Can create entirely new dishes based on complex interactions
-        - Adapts to new ingredients and constraints
-        """)
-        
-        # Senior Software Engineer Breakdown
-        st.divider()
-        st.subheader("👨‍💻 Senior Software Engineer Breakdown")
-        
-        st.markdown("""
-        ### Why Linear Regression is Still Valuable
-        
-        **1. Baseline Model**: Essential for comparison
-        **2. Interpretability**: Easy to explain to stakeholders
-        **3. Speed**: Fast to train and deploy
-        **4. Robustness**: Works well with small datasets
-        
-        ### When to Use Advanced Models
-        
-        **Use Random Forest/XGBoost when:**
-        - You have small to medium datasets (100s-10,000s of samples)
-        - You need good performance with minimal tuning
-        - You want feature importance insights
-        - You need to handle non-linear relationships
-        
-        **Use Neural Networks when:**
-        - You have large datasets (10,000s+ samples)
-        - You need to capture complex patterns
-        - You're working with unstructured data (images, text, audio)
-        - You can afford longer training times
-        
-        ### Practical Recommendations
-        
-        **1. Start Simple**: Always begin with linear regression as a baseline
-        **2. Validate Assumptions**: Check if your data meets linear regression assumptions
-        **3. Gradual Complexity**: Move to Random Forest, then XGBoost, then Neural Networks
-        **4. Business Context**: Choose based on your specific business needs, not just accuracy
-        **5. Maintenance**: Consider model maintenance costs and interpretability requirements
-        """)
-        
-        # Comprehensive Conclusion
-        st.divider()
-        st.subheader("✅ Comprehensive Conclusion: The Human Factor")
-        
-        st.markdown("""
-        ### The Fundamental Truth: We're Human, Not Robots
-        
-        Linear regression assumes a perfect, deterministic world where:
-        - All relationships are linear
-        - All variables are independent
-        - All errors are random and normally distributed
-        
-        But we live in a messy, complex world where:
-        - Relationships are non-linear and interactive
-        - Variables influence each other in complex ways
-        - Human behavior introduces unpredictable variability
-        - Context matters more than simple mathematical relationships
-        
-        ### Why XGBoost and Neural Networks Are More Realistic
-        
-        **XGBoost for Small-Medium Data:**
-        - Handles non-linear relationships naturally
-        - Robust to outliers and missing values
-        - Provides feature importance
-        - Works well with tabular data
-        - Requires less data than neural networks
-        
-        **Neural Networks for Big Data:**
-        - Can learn extremely complex patterns
-        - Scales to massive datasets
-        - Handles unstructured data (images, text, sequences)
-        - Can capture deep interactions between features
-        - Requires significant computational resources
-        """)
-        
-        # Key Takeaways
-        st.divider()
-        st.subheader("🎯 Key Takeaways")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("""
-            #### Linear Regression
-            
-            ✅ **Strengths:**
-            - Simple and interpretable
-            - Fast to train
-            - Works with small datasets
-            - Provides clear coefficients
-            - Good baseline
-            
-            ❌ **Weaknesses:**
-            - Assumes linearity
-            - Sensitive to outliers
-            - Can't capture interactions
-            - Poor with non-linear patterns
-            - Often underfits real data
-            """)
-        
-        with col2:
-            st.markdown("""
-            #### XGBoost & Neural Networks
-            
-            ✅ **Strengths:**
-            - Handle non-linearity
-            - Capture interactions
-            - More accurate predictions
-            - Robust to outliers
-            - Flexible architectures
-            
-            ❌ **Weaknesses:**
-            - Less interpretable
-            - Require more data
-            - Longer training time
-            - More hyperparameters
-            - Risk of overfitting
-            """)
-        
-        # Practical Decision Tree
-        st.divider()
-        st.subheader("🌳 Decision Tree: Which Model to Use?")
-        
-        st.markdown("""
-        ```
-        START: Do you have a prediction problem?
-        │
-        ├─ YES: Is your data < 1,000 samples?
-        │  ├─ YES: Start with Linear Regression
-        │  │  └─ If R² < 0.7: Try Random Forest
-        │  │     └─ If still poor: Try XGBoost with regularization
-        │  │
-        │  └─ NO: Is your data < 100,000 samples?
-        │     ├─ YES: Use XGBoost (best performance/complexity tradeoff)
-        │     │  └─ If interpretability needed: Use Random Forest
-        │     │
-        │     └─ NO: Use Neural Networks
-        │        └─ Ensure you have GPU for training
-        │
-        └─ NO: Reconsider your problem definition
-        ```
-        """)
-        
-        # Real-World Metrics Comparison
-        st.divider()
-        st.subheader("📊 Current Model Performance on Boston Housing Data")
-        
-        metrics_comparison = pd.DataFrame({
-            'Model': ['Linear Regression', 'Random Forest'] + (['XGBoost'] if xgb_available else []),
-            'Test R²': [
-                f"{r2_score(y_test, models['y_test_pred_lin']):.4f}",
-                f"{r2_score(y_test, models['y_test_pred_rf']):.4f}",
-            ] + ([f"{r2_score(y_test, models['y_test_pred_xgb']):.4f}"] if xgb_available else []),
-            'Test RMSE': [
-                f"${np.sqrt(mean_squared_error(y_test, models['y_test_pred_lin'])):.2f}k",
-                f"${np.sqrt(mean_squared_error(y_test, models['y_test_pred_rf'])):.2f}k",
-            ] + ([f"${np.sqrt(mean_squared_error(y_test, models['y_test_pred_xgb'])):.2f}k"] if xgb_available else []),
-            'Complexity': ['Low', 'Medium'] + (['High'] if xgb_available else []),
-            'Interpretability': ['High', 'Medium'] + (['Low'] if xgb_available else []),
-        })
-        
-        st.dataframe(metrics_comparison, use_container_width=True)
-        
-        st.info("""
-        **Interpretation**: Notice how Random Forest and XGBoost achieve better R² scores than Linear Regression.
-        This demonstrates that real-world housing prices have non-linear relationships that simpler models can't capture.
-        """)
-        
-        # The Human Element
-        st.divider()
-        st.subheader("👥 The Human Element: Why This Matters")
-        
-        st.markdown("""
-        ### Real-World Complexity
-        
-        1. **Behavioral Factors**: People don't always act rationally
-           - A house near a park might be valued higher than linear regression predicts
-           - Neighborhood reputation creates non-linear price jumps
-           - Emotional factors influence decisions
-        
-        2. **Market Dynamics**: Markets have feedback loops
-           - High prices attract new construction (supply increases)
-           - New construction affects prices (non-linear)
-           - Investor behavior creates cycles
-        
-        3. **Contextual Information**: Context matters
-           - Same crime rate means different things in different cities
-           - School quality interacts with neighborhood demographics
-           - Economic trends affect different areas differently
-        
-        4. **Temporal Factors**: Things change over time
-           - Models trained on 2010 data won't work for 2024
-           - New infrastructure changes neighborhood values
-           - Economic recessions affect relationships
-        
-        ### Why We Need Advanced Models
-        
-        Because **humans are not linear**. We make decisions based on:
-        - Complex interactions between factors
-        - Non-rational emotional responses
-        - Context-dependent preferences
-        - Unpredictable behavioral patterns
-        
-        Advanced models (XGBoost, Neural Networks) can capture these complexities better than linear regression.
-        """)
-        
-        # Implementation Recommendations
-        st.divider()
-        st.subheader("🚀 Implementation Recommendations")
-        
-        tabs = st.tabs(["📋 For Small Teams", "🏢 For Enterprises", "🔬 For Research", "⚙️ For Production"])
-        
-        with tabs[0]:
-            st.markdown("""
-            ### Small Team Best Practices
-            
-            1. **Start with XGBoost**
-               - Better performance than linear regression
-               - Faster to implement than neural networks
-               - Good interpretability with feature importance
-            
-            2. **Use AutoML Tools**
-               - AutoGluon, TPOT, Auto-sklearn
-               - Automatically tune hyperparameters
-               - Less expertise required
-            
-            3. **Focus on Data Quality**
-               - Clean data > complex models
-               - Feature engineering > model complexity
-               - Validation > accuracy alone
-            
-            4. **Monitor in Production**
-               - Track model drift
-               - Retrain periodically
-               - A/B test new models
-            """)
-        
-        with tabs[1]:
-            st.markdown("""
-            ### Enterprise Best Practices
-            
-            1. **Model Registry**
-               - Version control for models
-               - Track lineage and dependencies
-               - Rollback capabilities
-            
-            2. **Governance Framework**
-               - Approval workflows
-               - Compliance documentation
-               - Audit trails
-            
-            3. **Scalability**
-               - Distributed training (Spark, Ray)
-               - Model serving infrastructure (KServe, Seldon)
-               - Real-time prediction APIs
-            
-            4. **Team Structure**
-               - Data engineers for pipelines
-               - ML engineers for models
-               - MLOps engineers for deployment
-            """)
-        
-        with tabs[2]:
-            st.markdown("""
-            ### Research Best Practices
-            
-            1. **Rigorous Validation**
-               - Cross-validation (k-fold, stratified)
-               - Statistical significance testing
-               - Multiple evaluation metrics
-            
-            2. **Reproducibility**
-               - Document all hyperparameters
-               - Use random seeds
-               - Version all code and data
-            
-            3. **Ablation Studies**
-               - Remove features one at a time
-               - Understand model components
-               - Justify design choices
-            
-            4. **Comparison Baselines**
-               - Always compare to simple models
-               - Report confidence intervals
-               - Discuss limitations
-            """)
-        
-        with tabs[3]:
-            st.markdown("""
-            ### Production Best Practices
-            
-            1. **Model Monitoring**
-               - Track prediction distribution
-               - Monitor feature distributions
-               - Alert on model drift
-            
-            2. **Retraining Pipeline**
-               - Automated retraining schedule
-               - Performance-based triggers
-               - Canary deployments
-            
-            3. **Fallback Strategies**
-               - Ensemble with simpler models
-               - Graceful degradation
-               - Human-in-the-loop for edge cases
-            
-            4. **Documentation**
-               - Model cards
-               - Data sheets
-               - Fairness assessments
-            """)
-        
-        # Final Wisdom
-        st.divider()
-        st.subheader("💡 Final Wisdom: The ML Maturity Journey")
-        
-        st.markdown("""
-        ### Level 1: Linear Regression Era
-        - **Understanding**: Basic relationships
-        - **Tools**: Spreadsheets, simple statistics
-        - **Accuracy**: 50-60% on complex problems
-        - **Time**: Quick to implement
-        
-        ### Level 2: Tree-Based Models (Random Forest, XGBoost)
-        - **Understanding**: Non-linear relationships, feature interactions
-        - **Tools**: scikit-learn, XGBoost, LightGBM
-        - **Accuracy**: 70-85% on most problems
-        - **Time**: Days to weeks
-        
-        ### Level 3: Deep Learning
-        - **Understanding**: Complex patterns, unstructured data
-        - **Tools**: TensorFlow, PyTorch, JAX
-        - **Accuracy**: 85-95%+ on specialized tasks
-        - **Time**: Weeks to months
-        
-        ### Level 4: Production ML Systems
-        - **Understanding**: Entire ML lifecycle
-        - **Tools**: MLOps platforms, monitoring systems
-        - **Accuracy**: Maintained over time
-        - **Time**: Continuous improvement
-        
-        ### The Journey
-        
-        Most successful ML practitioners follow this path:
-        1. Master linear regression (understand fundamentals)
-        2. Move to XGBoost (best performance/complexity tradeoff)
-        3. Explore neural networks (when data and compute allow)
-        4. Build production systems (where real value is created)
-        
-        **The key insight**: Better models aren't always needed. The right model for your specific problem, data, and constraints is what matters.
-        """)
-        
-        # Call to Action
-        st.divider()
-        st.subheader("🎓 Next Steps")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.markdown("""
-            ### 📖 Learn More
-            
-            - Read "Hands-On ML" by Aurélien Géron
-            - Study "The Hundred-Page ML Book"
-            - Take Andrew Ng's ML course
-            - Explore Kaggle competitions
-            """)
-        
-        with col2:
-            st.markdown("""
-            ### 🛠️ Practice
-            
-            - Build projects with real data
-            - Compete on Kaggle
-            - Contribute to open source
-            - Write technical blogs
-            """)
-        
-        with col3:
-            st.markdown("""
-            ### 🚀 Build Systems
-            
-            - Deploy models to production
-            - Monitor and maintain
-            - Gather user feedback
-            - Iterate and improve
-            """)
-        
-        st.divider()
-        st.success("""
-        ✅ **Remember**: The best model is the one that solves your business problem reliably, 
-        efficiently, and ethically. Start simple, measure carefully, and evolve as needed.
-        """)
