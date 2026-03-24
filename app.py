@@ -98,7 +98,8 @@ if xgb_available:
 # METRICS FUNCTION
 # =========================
 def get_metrics(y_true, y_pred):
-    rmse = mean_squared_error(y_true, y_pred, squared=False)
+    mse = mean_squared_error(y_true, y_pred)  # always supported
+    rmse = np.sqrt(mse)  # manual root
     r2 = r2_score(y_true, y_pred)
     return rmse, r2
 
